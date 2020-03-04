@@ -1,0 +1,25 @@
+@startuml
+User -> "My Check Your Self": Click "Request pick up" btn
+note left: User received a notification that his/her\ntest results are ready. He or she logins in\nto My Check Your Self and has the digi.me\napp already setup to retrieve the results
+"My Check Your Self" -> "Check your self API": Get "create postbox" url
+"Check your self API" -> "Digi.me API": EstablishSession Sesion
+"Digi.me API" --> "Check your self API": Return Session
+"Check your self API" -> "Digi.me API": Get "create postbox" url
+"Digi.me API" -> "Check your self API": Return "create postbox" url
+
+"Check your self API" -> "My Check Your Self": Return "create postbox" url
+"My Check Your Self" -> "Digi.me APP": Redirect and Open to Digi.me app
+"Digi.me APP" -> User: Show consent popup
+User -> "Digi.me APP": Give consent
+"Digi.me APP" -> "My Check Your Self": Call callback url with postbox id and keys
+
+"My Check Your Self" -> Lab: Get csv by customer id
+Lab -> "My Check Your Self": Return CSV
+"My Check Your Self" -> "Check your self API" : Provide csv with postbox id and keys
+"Check your self API" -> "Digi.me API": Push data To postbox
+"Digi.me API" -> "Check your self API" : Return success
+"Check your self API" -> "My Check Your Self": Return "postbox import" url
+User -> "My Check Your Self": Click "Postbox import" btn
+"My Check Your Self" -> "Digi.me APP": Open Digi.me app
+@enduml
+
